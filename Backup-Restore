@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#mkdir BackandRestore
+LOOP=./Backup-Restore
+
+#lsblk -o HOTPLUG,MAJ:MIN,SIZE,NAME,MOUNTPOINT | grep $( $SDchoise 
+
+#dmesg | grep "Attached SCSI removable disk" | cut -d "[" -f 3 | cut -d "]" -f 1 || dmesg | grep "Attached SCSI disk" | cut -d "[" -f 3 | cut -d "]" -f 1) | cut -d ":" -f 2
+#HDD=
+#if [ $HDD == /dev/null 
+
+#SD="dmesg | grep "Attached SCSI removable disk" | cut -d "[" -f 3 | cut -d "]" -f 1"
+echo Sauvegarder [1], pour Restaurer [2]
+read COMP 
+if [ $COMP == '1' ]; then 
+#######Sauvegarde#######
+	echo Choisissez le temps de rafraichissement de [DD infos]/s
+	read UPD
+	lsblk
+	echo Choisissez le périphérique que vous désirez Sauvegarder
+	read SD
+	#dd if=/dev/$SD bs=4096 | gzip > ~/BackandRestore/disk-backup.gz
+        #sfdisk -d /dev/$SD > ~/BackandRestore/part_table
+	#watch -n $UPD kill -USR1 $(pgreg dd)        
+	echo Vous avez choisi : $COMP Sauvegarder 
+elif [ $COMP == '2' ]; then
+        echo Vous avez choisi l option $COMP Restaurer 
+#######Restauration#######
+	echo Choisissez le temps de rafraichissement de [DD infos]/s
+	read UPD
+	echo Choisissez le périphérique que vous souhaitez utiliser pour la Restauration
+	lsblk
+	read SD
+        #gzip -c ~/BackandRestore/disk-backup.gz | sudo dd of=/dev/$SD bs=4096
+        #sfdisk /dev/$SD < ~/BackandRestore/part_table
+	#watch -n $UPD kill -USR1 $(pgreg dd)        
+	#rm -r BackandRestore
+else
+echo Type 1 or 2 option or just quite with CRTL + C ...
+$LOOP
+fi
+	
+
+
+
+

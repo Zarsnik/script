@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#IFS=$'(\n)'  #### Internal File Separator 
+
+######### Efface la première la ligne du csv ######### 
+file=$( sed -e '1 d' /usr/share/data.csv)
+
+######### Boucle pour chaque ligne ######### 
+for line in $file ; do {
+
+	######### 
+	name=$(echo $line | cut -d "," -f 1)
+	
+	######### 
+	address=$(echo $line | cut -d "," -f 2)
+	
+	######### Est ce que la valeur de la variable $name  existe dans le fichier .zn sur les lignes comportant un A ######### 
+	grep $name /var/named/pizza.zn | grep A 1> /dev/null
+
+	######### Si la commande précédente ne s'est pas déroulé correctement ( variable $? n'est pas égale a 0) #########  
+	if (( $? != 0 )); then {
+		######### enregistre une nouvelle entré dans le fichier ######### 
+		echo -e "$name\t\tA\t$address" >> /var/named/pizza.zn
+	}
+	
+	else {
+		######### remplacement du nom et du reste de ça ligne par la sortie standard actuel #########  
+		sed -i "\%A% s/$name.*/$name\t\t\tA\t$address/" /var/named/pizza.zn
+	}
+
+fi
+}
+done

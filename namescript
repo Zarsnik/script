@@ -1,0 +1,16 @@
+#!/bin/bash
+
+clear
+echo -en "\n\n\t\tVeuillez donner votre prénom: "
+read prenom
+
+while [[ -z $prenom ]]; do {
+		echo "\t\t\t\t\t\t:warn: rien n'a été déclaré"
+		echo "\t\t\t\t\t\tmerci d'essayer à nouveau"
+		sleep 2
+		clear
+		echo -en "\n\n\t\tVeuillez donner votre prénom: "
+		read prénom
+}
+done
+echo -e "\t\t\tBonjour $prenom"

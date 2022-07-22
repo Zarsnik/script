@@ -1,0 +1,31 @@
+#############################
+##!/usr/bin/python3
+#
+#from syslog import syslog
+#syslog(2,'message demande!')
+#
+#############################
+
+#!/bin/bash
+
+# # # # sed -e '1d' data.csv | awk '{split($0,var,",");if ( length(var[1]) != 0 && ( length(var[2]) != 0 ) && (var[1] !~ /^[[:digit:]]{0,100}$/) ) { print var[1]"\t\tA\t"var[2];}}' >> /var/named/ccs.lab
+
+for line in $(sed -e '1d' data.csv); do {
+    nom=$(echo $line | cut -d "," -f 1)
+    ip=$(echo $line | cut -d "," -f 2)
+    grep $nom /var/named/ccs.lab 1> /dev/null 2> /dev/null
+    if (( $? == 0 )); then {
+	echo "le nom existe"
+	exit 2
+    }
+    elif [[ -z $nom ]] || [[ -z $ip ]]; then {
+	echo "erreur"
+	exit 1
+    }
+    else {
+	echo -e "$nom\t\tA\t$ip" >> /var/named/ccs.lab
+    }
+    fi
+}
+done
+

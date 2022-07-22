@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#IFS=$'(\n)'  #### Internal File Separator 
+
+######### Efface la première la ligne du csv ######### 
+file=$( sed -e '1 d' /usr/share/data.csv)
+
+end=$(echo $file | wc -w)
+
+for (( i=1; i <= $end; i++ )); do {
+	line=$(echo $file | cut -d " " -f $i)
+	name=$(echo $line | cut -d "," -f 1)
+	addr=$(echo $line | cut -d "," -f 2)
+	grep $name /var/named/pizza.zn | grep A 1> /dev/null
+	if (( $? != 0 )); then {
+		echo -e "$name\t\tA\t$addr" >> /var/named/pizza.zn
+	}
+	else {
+		sed -i "\%A% s/$name.*/$name\t\t\tA\t$addr/" /var/named/pizza.zn
+	}
+fi
+}
+done
+

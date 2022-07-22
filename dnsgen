@@ -1,0 +1,5 @@
+#!/bin/bash
+clear
+
+echo -en "\n\tVoulez vous ajouter une déclaration de zone, une zone, un enregistrement ou les trois ?\n\t\t\t1 ] Déclaration \n\t\t\t2 ] Zone \n\t\t\t3 ] Enregistrement \n\t\t\t4 ] All\n" 
+#read
