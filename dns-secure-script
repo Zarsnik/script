@@ -1,6 +1,6 @@
 #!/bin/bash
 for line in $(sed -e '1d' /usr/share/machines.csv); do { 
-	a=$(echo $line | awk '{split($0,var,",");if ( length(var[1]) != 0 && length(var[2]) != 0 ) { print var[1]"\t"var[2];}}')
+	a=$(echo $line | awk '{split($0,var,",");if ( length(var[1]) != 0 || length(var[2]) != 0 ) { print var[1]"\t"var[2];}}')
 	b=$(echo $line | cut -d "," -f 2  | grep -E '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$')
 	if [ -z "$a" ] || [ -z "$b" ] ; then echo "ligne invalide"
 		v="invalide"
@@ -13,7 +13,7 @@ for line in $(sed -e '1d' /usr/share/machines.csv); do {
 			exit
 		}
 	fi
-	if  [[ $x == "valide" ]]; then
+	if  [[ $v == "valide" ]]; then
 		echo $line | sed -e "s/,/\tA\t/" >> /var/named/examen.zone
 		systemctl restart named
 	fi
